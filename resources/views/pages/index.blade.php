@@ -2,5 +2,5 @@
 
 @section('content')
       <h1>{{$title}}</h1>
-      <p>This is the about page</p>
+      <p>This is the index page</p>
 @endsection
