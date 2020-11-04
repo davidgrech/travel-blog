@@ -15,7 +15,7 @@ class PostsController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth', ['except' => ['index', 'show']]);
     }
 
     /**
@@ -54,8 +54,18 @@ class PostsController extends Controller
     {
         $this->validate($request,[
           'title' => 'required',
-          'body' => 'required'
+          'body' => 'required',
+          'cover_image' => 'image|nullable|max:1999'
         ]);
+        //handle the file upload
+        if($request->hasFile('cover_image')){
+          //get filename with extentions
+          $filenameWithExt = $request->file('cover_image')->getClientOriginalImage();
+          //get just filename
+          $filename = pathinfo($filenameWithExt, PATHINFO_FILE);
+        }else{
+          $fileNameToStore = 'noimage.jpeg';
+        }
 
         $post = new Post;
         $post->title = $request->input('title');
@@ -88,6 +98,9 @@ class PostsController extends Controller
     public function edit($id)
     {
         $post = Post::find($id);
+        if(auth()->user()->id !== $post->user_id){
+          return redirect('/posts')->with('error', 'Unauthorized page.');
+        }
         return view('posts.edit')->with('post', $post);
     }
 
@@ -122,6 +135,11 @@ class PostsController extends Controller
     public function destroy($id)
     {
       $post = Post::find($id);
+
+      if(auth()->user()->id !== $post->user_id){
+        return redirect('/posts')->with('error', 'Unauthorized page.');
+      }
+
       $post->delete();
       return redirect('/posts')->with('success', 'Post removed.');
     }
