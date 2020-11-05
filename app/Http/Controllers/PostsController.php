@@ -63,6 +63,12 @@ class PostsController extends Controller
           $filenameWithExt = $request->file('cover_image')->getClientOriginalImage();
           //get just filename
           $filename = pathinfo($filenameWithExt, PATHINFO_FILE);
+          //get just ext
+          $extension = $request->file('cover_image')->getOriginalClientExtention();
+          //filename to store
+          $fileNameToStore = $filename .'_'.time().'.'.$extension;
+          //upload image
+          $path = $request->file('cover_image')->storeSa('public/cover_images', $fileNameToStore);
         }else{
           $fileNameToStore = 'noimage.jpeg';
         }
@@ -71,6 +77,7 @@ class PostsController extends Controller
         $post->title = $request->input('title');
         $post->body = $request->input('body');
         $post->user_id = auth()->user()->id;
+        $post->cover_image = $fileNameToStore;
         $post->save();
 
         return redirect('/posts')->with('success', 'Post created');
