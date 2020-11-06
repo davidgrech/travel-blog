@@ -71,7 +71,7 @@ class PostsController extends Controller
           //upload image
           $path = $request->file('cover_image')->storeAs('public/cover_images', $fileNameToStore);
         }else{
-          $fileNameToStore = 'noimage.jpeg';
+          $fileNameToStore = 'noimage.png';
         }
 
         $post = new Post;
@@ -165,7 +165,7 @@ class PostsController extends Controller
         return redirect('/posts')->with('error', 'Unauthorized page.');
       }
 
-      if($post->cover_image != 'noimage.jpg'){
+      if($post->cover_image != 'noimage.png'){
         Storage::delete('public/cover_images/'.$post->cover_image);
       }
 
