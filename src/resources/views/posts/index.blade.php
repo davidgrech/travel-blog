@@ -2,7 +2,7 @@
 
 @section('content')
 
-<h1>Travel Blog</h1>
+<h1>Posts here</h1>
   @if(count($posts) > 0)
     <div class="card">
       <ul class='list-group list-group-flush'>
@@ -13,7 +13,7 @@
                   <img style="height:120px" src="/storage/cover_images/{{$post->cover_image}}" alt="">
               </div>
               <div class="col-md-8">
-                <h3 style="padding-top: 1rem" ><a href="/posts/{{$post->id}}">{{$post->title}}</a></h3>
+                <h3><a href="/posts/{{$post->id}}">{{$post->title}}</a></h3>
                 <small>Written on {{$post->created_at}}</small>
               </div>
           </div>
