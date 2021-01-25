@@ -2,7 +2,7 @@
 
 @section('content')
 
-<h1>Travel Blog</h1>
+<h1>Explore</h1>
   @if(count($posts) > 0)
     <div class="card">
       <ul class='list-group list-group-flush'>
